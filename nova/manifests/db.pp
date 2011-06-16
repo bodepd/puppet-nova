@@ -6,6 +6,7 @@ class nova::db(
   $cluster_id = 'localzone'
 ) {
 
+  Class['nova']->Class['nova::db']
   # now this requires storedconfigs
   # TODO - worry about the security implications
   @@nova_config { 'database_url':
@@ -15,13 +16,12 @@ class nova::db(
 
   exec { "initial-db-sync":
     command => "/usr/bin/nova-manage db sync",
-    require => Package["nova-common"],
     refreshonly => true,
   }
 
   mysql::db { $name:
-    user => $user, 
-    password => $password,  
+    user => $user,
+    password => $password,
     host => $host,
     # I may want to inject some sql
     require => Class['mysql::server'],

@@ -4,18 +4,18 @@ class nova::db(
   $user = 'nova',
   $host = '127.0.0.1',
   $allowed_hosts = undef,
-  $cluster_id = 'localzone'
+  $cluster_id = 'localzone',
+  $export = true
 ) {
 
   # Create the db instance before nova-common if its installed
   Mysql::Db[$dbname] -> Package<| title == "nova-common" |>
   Mysql::Db[$dbname] ~> Exec<| title == 'initial-db-sync' |>
 
-  # now this requires storedconfigs
-  # TODO - worry about the security implications
-  @@nova_config { 'database_url':
-    value => "mysql://${user}:${password}@${host}/${dbname}",
-    tag   => $zone,
+  if $export {
+    @@nova_config { 'database_url':
+      value => "mysql://${user}:${password}@${host}/${dbname}",
+    }
   }
 
   mysql::db { $dbname:

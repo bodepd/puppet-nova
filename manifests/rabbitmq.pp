@@ -7,7 +7,8 @@ class nova::rabbitmq(
   $password='guest',
   $port='5672',
   $virtual_host='/',
-  $install_repo = false
+  $install_repo = false,
+  $export = true
 ) {
 
   # only configure nova after the queue is up
@@ -15,7 +16,7 @@ class nova::rabbitmq(
 
   # work around hostname bug, LP #653405
   host { $hostname:
-    ip => $ipaddress,
+    ip           => $ipaddress,
     host_aliases => $fqdn,
   }
 
@@ -26,6 +27,7 @@ class nova::rabbitmq(
       before => Class['rabbitmq::server']
     }
   }
+
   if $userid == 'guest' {
     $delete_guest_user = false
   } else {
@@ -33,7 +35,7 @@ class nova::rabbitmq(
     rabbitmq_user { $userid:
       admin     => true,
       password  => $password,
-      provider => 'rabbitmqctl',
+      provider  => 'rabbitmqctl',
       require   => Class['rabbitmq::server'],
     }
     # I need to figure out the appropriate permissions
@@ -50,6 +52,18 @@ class nova::rabbitmq(
   }
   rabbitmq_vhost { $virtual_host:
     provider => 'rabbitmqctl',
-    require => Class['rabbitmq::server'],
+    require  => Class['rabbitmq::server'],
+  }
+
+  if $export {
+    @@nova_config {
+      # I am not sure if hostname is going to be the
+      # correct hostname
+      'rabbit_host':         value => $hostname;
+      'rabbit_password':     value => $userid;
+      'rabbit_port':         value => $port;
+      'rabbit_userid':       value => $userid;
+      'rabbit_virtual_host': value => $virtual_host,
+    }
   }
 }

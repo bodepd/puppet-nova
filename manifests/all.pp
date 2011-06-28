@@ -38,6 +38,7 @@ class nova::all(
     userid       => $rabbit_userid,
     password     => $rabbit_password,
     virtual_host => $rabbit_virtual_host,
+    export       => false,
   }
 
   class { "nova":
@@ -54,7 +55,10 @@ class nova::all(
     rabbit_virtual_host => $rabbit_virtual_host,
   }
 
-  class { "nova::api": enabled => true }
+  class { "nova::api":
+    enabled => true,
+    export  => false,
+  }
 
   class { "nova::compute":
     api_server     => $ipaddress,
@@ -83,6 +87,7 @@ class nova::all(
     dbname   => $db_name,
     user     => $db_user,
     host     => $db_host,
+    export   => false,
   }
 
   nova::manage::admin { $admin_user: }
@@ -99,7 +104,8 @@ class nova::all(
   # set up glance server
   class { 'glance::api':
     swift_store_user => 'foo_user',
-    swift_store_key => 'foo_pass',
+    swift_store_key  => 'foo_pass',
+    export           => false,
   }
 
   class { 'glance::registry': }

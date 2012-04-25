@@ -46,7 +46,7 @@ describe 'nova::vncproxy' do
 
       it { should_not contain_class('git') }
       it { should_not contain_vcsrepo('/var/lib/nova/noVNC') }
-      it { should_not contain_packate('noVNC') }
+      it { should_not contain_package('noVNC') }
 
       it { should contain_package('nova-vncproxy').with(
         :name   => 'novnc',

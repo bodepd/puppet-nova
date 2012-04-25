@@ -235,7 +235,6 @@ node /compute/ {
     rabbit_userid      => $rabbit_user,
     rabbit_password    => $rabbit_password,
     network_manager    => 'nova.network.manager.FlatDHCPManager',
-    admin_password     => $nova_user_password,
   }
 
   class { 'nova::compute':

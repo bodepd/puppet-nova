@@ -1,21 +1,17 @@
 # flat.pp
 class nova::network::flat (
+  $flat_interface,
   $flat_network_bridge,
-  $configure_bridge = true,
-  $flat_network_bridge_ip,
-  $flat_network_bridge_netmask,
   $enabled = "true"
 ) {
 
-  class { 'nova::network':
-    enabled => $enabled,
-  }
+  nova_config  { 'network_manager': value => 'nova.network.manager.FlatManager' }
 
   # flatManager requires a network bridge be manually setup.
-  if $configure_bridge {
-    nova::network::bridge { $flat_network_bridge:
-      ip      => $flat_network_bridge_ip,
-      netmask => $flat_network_bridge_netmask,
-    }
-  }
+  #if $configure_bridge {
+   # nova::network::bridge { $flat_network_bridge:
+   #   ip      => $flat_network_bridge_ip,
+   #   netmask => $flat_network_bridge_netmask,
+   # }
+ # }
 }

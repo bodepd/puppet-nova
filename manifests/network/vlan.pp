@@ -1,8 +1,14 @@
 #vlan.pp
 class nova::network::vlan (
-  $enabled = true
+  $vlan_interface,
+  $vlan_start = '100',
+  $enabled    = true
 ) {
-  class { 'nova::network':
-    enabled => $enabled,
+
+  nova_config {
+    'network_manager': value => 'nova.network.manager.VlanManager'
+    'vlan_interface': value => $vlan_interface
+    'vlan_start': $vlan_start,
   }
+
 }

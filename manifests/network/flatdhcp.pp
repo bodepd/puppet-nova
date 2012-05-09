@@ -10,9 +10,12 @@ class nova::network::flatdhcp (
   $dhcpbridge_flagfile = '/etc/nova/nova.conf'
 ) {
 
+  if $public_interface {
+    nova_config { 'public_interface': value => $public_interface }
+  }
+
   nova_config {
     'network_manager':     value => 'nova.network.manager.FlatDHCPManager';
-    'public_interface':    value => $public_interface;
     'fixed_range':         value => $fixed_range;
     'flat_interface':      value => $flat_interface;
     'flat_network_bridge': value => $flat_network_bridge;

@@ -9,9 +9,12 @@ class nova::network::flat (
   $flat_network_bridge = 'br100'
 ) {
 
+  if $public_interface {
+    nova_config { 'public_interface': value => $public_interface }
+  }
+
   nova_config {
-    'network_manager':     value => 'nova.network.manager.FlatDHCPManager';
-    'public_interface':    value => $public_interface;
+    'network_manager':     value => 'nova.network.manager.FlatManager';
     'fixed_range':         value => $fixed_range;
     'flat_interface':      value => $flat_interface;
     'flat_network_bridge': value => $flat_network_bridge;

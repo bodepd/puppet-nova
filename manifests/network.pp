@@ -26,6 +26,17 @@ class nova::network(
 
   include nova::params
 
+  # forward all ipv4 traffic
+  # this is required for the vms to pass through the gateways
+  # public interface
+  Exec {
+    path => $::path
+  }
+
+  sysctl::value { 'net.ipv4.ip_forward':
+    value => '1'
+  }
+
   if $floating_range {
     nova_config { 'floating_range':   value => $floating_range }
   }
@@ -51,7 +62,7 @@ class nova::network(
     }
   }
 
-  case $nova::network_manager {
+  case $network_manager {
 
     'nova.network.manager.FlatDHCPManager': {
 

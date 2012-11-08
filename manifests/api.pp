@@ -52,7 +52,7 @@ class nova::api(
   nova_config {
     'api_paste_config':     value => '/etc/nova/api-paste.ini';
     'enabled_apis':         value => $enabled_apis;
-    'volume_api_class':     value => 'nova.volume.cinder.API';
+    'volume_api_class':     value => 'cinder.volume.api.API';
     'ec2_listen':           value => $api_bind_address;
     'osapi_compute_listen': value => $api_bind_address;
     'metadata_listen':      value => $api_bind_address;

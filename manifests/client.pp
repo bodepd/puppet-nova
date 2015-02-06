@@ -17,4 +17,5 @@ class nova::client(
     tag    => ['openstack'],
   }
 
+  ensure_packages('python-openstackclient')
 }

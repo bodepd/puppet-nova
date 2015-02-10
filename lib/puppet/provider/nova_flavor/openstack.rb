@@ -1,8 +1,8 @@
-require 'puppet/provider/openstack'
+require 'puppet/provider/nova_openstack'
 
 Puppet::Type.type(:nova_flavor).provide(
   :openstack,
-  :parent => Puppet::Provider::Openstack
+  :parent => Puppet::Provider::NovaOpenstack
 ) do
 
   desc "Provider to manage nova flavors"

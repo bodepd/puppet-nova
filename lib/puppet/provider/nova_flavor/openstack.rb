@@ -114,10 +114,11 @@ Puppet::Type.type(:nova_flavor).provide(
     list.collect do |flavor|
       new(
         :name      => flavor[:name],
+        :id        => flavor[:id],
         :ensure    => :present,
-	:ram	   => flavor[:ram],
-	:disk	   => flavor[:disk],
-	:vcpu	   => flavor[:vcpus],
+        :ram	     => flavor[:ram],
+        :disk	     => flavor[:disk],
+        :vcpu	     => flavor[:vcpus],
         :ephemeral => flavor[:ephemeral],
         :swap      => flavor[:swap],
         :rxtx      => flavor[:rxtx],
@@ -131,6 +132,7 @@ Puppet::Type.type(:nova_flavor).provide(
     instances.collect do |flavor|
       {
         :name      => flavor[:name],
+        :id        => flavor[:id],
         :ensure    => :present,
         :ram       => flavor[:ram],
         :disk      => flavor[:disk],

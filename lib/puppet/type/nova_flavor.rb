@@ -35,6 +35,13 @@ Puppet::Type.newtype(:nova_flavor) do
     end
   end
 
+  newproperty(:id) do
+    desc 'The unique id of the flavor'
+    validate do |v|
+      raise(Puppet::Error, 'This is a read only property')
+    end
+  end
+
   newproperty(:rxtx) do
     desc 'Network RXTX Factor'
     munge do |value|

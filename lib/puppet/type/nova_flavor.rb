@@ -66,12 +66,6 @@ Puppet::Type.newtype(:nova_flavor) do
     end
   end
 
-  validate do
-    raise(Puppet::Error, 'RAM must be set') unless self[:ram]
-    raise(Puppet::Error, 'VCPU must be set') unless self[:vcpu]
-    raise(Puppet::Error, 'Disk size must be set') unless self[:disk]
-  end
-
 auth_param_doc=<<EOT
   keystone authentication details
 EOT

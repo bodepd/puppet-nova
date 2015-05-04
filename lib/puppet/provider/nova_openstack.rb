@@ -24,10 +24,11 @@ class Puppet::Provider::NovaOpenstack < Puppet::Provider::Openstack
 
   def self.nova_request(service, action, object, credentials, error, *properties)
     credentials = {
-      'tenant_name' => get_admin_tenant,
-      'username'    => get_admin_user,
-      'password'    => get_admin_pass,
-      'auth_url'    => get_auth_uri,
+      'tenant_name'  => get_admin_tenant,
+      'project_name' => get_admin_tenant,
+      'username'     => get_admin_user,
+      'password'     => get_admin_pass,
+      'auth_url'     => get_auth_uri,
     }
     raise error unless (credentials['tenant_name'] && credentials['auth_url'] && credentials['username'] && credentials['password'])
     auth_args = password_auth_args(credentials)

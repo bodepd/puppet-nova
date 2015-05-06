@@ -64,5 +64,11 @@ class nova::compute::ironic (
     'ironic/admin_tenant_name':         value => $admin_tenant_name;
     'ironic/api_endpoint':              value => $api_endpoint;
     'DEFAULT/compute_driver':           value => $compute_driver;
+    'DEFAULT/scheduler_host_manager':   value => 'ironic.nova.scheduler.ironic_host_manager.IronicHostManager';
+    'DEFAULT/compute_manager':          value => 'ironic.nova.compute.manager.ClusteredComputeManager';
+  }
+
+  package { 'python-ironicclient':
+    ensure => 'present'
   }
 }

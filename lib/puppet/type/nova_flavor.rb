@@ -1,5 +1,3 @@
-require 'puppet/util/openstack'
-
 Puppet::Type.newtype(:nova_flavor) do
 
   @doc = "Manage creation/deletion of nova flavor."
@@ -72,10 +70,5 @@ Puppet::Type.newtype(:nova_flavor) do
       value.to_s.strip
     end
   end
-
-auth_param_doc=<<EOT
-  keystone authentication details
-EOT
-  Puppet::Util::Openstack.add_openstack_type_methods(self, auth_param_doc)
 
 end

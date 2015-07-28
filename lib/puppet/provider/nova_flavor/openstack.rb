@@ -32,7 +32,7 @@ Puppet::Type.type(:nova_flavor).provide(
   end
 
   def create
-    request('flavor', 'create', resource[:name], resource[:auth], properties)
+    request('flavor', 'create', resource[:name], properties)
   end
 
   def exists?
@@ -40,7 +40,7 @@ Puppet::Type.type(:nova_flavor).provide(
   end
 
   def destroy
-    request('flavor', 'delete', resource[:name], resource[:auth])
+    request('flavor', 'delete', resource[:name])
   end
 
   def reset
@@ -110,7 +110,7 @@ Puppet::Type.type(:nova_flavor).provide(
   end
 
   def self.instances
-    list = request('flavor', 'list', nil, nil, '')
+    list = request('flavor', 'list', nil, '')
     list.collect do |flavor|
       new(
         :name      => flavor[:name],
@@ -128,7 +128,7 @@ Puppet::Type.type(:nova_flavor).provide(
   end
 
   def instances
-    instances = request('flavor', 'list', nil, resource[:auth], '')
+    instances = request('flavor', 'list', nil, '')
     instances.collect do |flavor|
       {
         :name      => flavor[:name],

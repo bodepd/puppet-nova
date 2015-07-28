@@ -2,27 +2,27 @@ require 'puppet/util/inifile'
 require 'puppet/provider/openstack'
 class Puppet::Provider::NovaOpenstack < Puppet::Provider::Openstack
 
-  def request(service, action, object, credentials, *properties)
+  def request(service, action, object, *properties)
     begin
       super
     rescue Puppet::Error::OpenstackAuthInputError => error
-      nova_request(service, action, object, credentials, error, *properties)
+      nova_request(service, action, object, error, *properties)
     end
   end
 
-  def self.request(service, action, object, credentials, *properties)
+  def self.request(service, action, object, *properties)
     begin
       super
     rescue Puppet::Error::OpenstackAuthInputError => error
-      nova_request(service, action, object, credentials, error, *properties)
+      nova_request(service, action, object, error, *properties)
     end
   end
 
-  def nova_request(service, action, object, credentials, error, *properties)
-    self.class.nova_request(service, action, object, credentials, error, *properties)
+  def nova_request(service, action, object, error, *properties)
+    self.class.nova_request(service, action, object, error, *properties)
   end
 
-  def self.nova_request(service, action, object, credentials, error, *properties)
+  def self.nova_request(service, action, object, error, *properties)
     credentials = {
       'tenant_name'  => get_admin_tenant,
       'project_name' => get_admin_tenant,
